@@ -2,11 +2,10 @@ import React from 'react';
 import { Camera } from 'expo-camera';
 import { View, Text, processColor } from 'react-native';
 import * as Permissions from 'expo-permissions';
-
 import styles from './styles';
 import Toolbar from './Toolbar';
 import Gallery from './Gallery';
-
+import API_KEY from './secrets'
 export default class Cam extends React.Component {
     camera = null;
 
@@ -40,7 +39,7 @@ export default class Cam extends React.Component {
     };
     
     detectText(base64){
-        fetch(`https://vision.googleapis.com/v1/images:annotate?key=${process.env.API_KEY}`, {
+        fetch(`https://vision.googleapis.com/v1/images:annotate?key=${API_KEY}`, {
             method: 'POST',
             body: JSON.stringify({
               "requests": [{
@@ -52,7 +51,6 @@ export default class Cam extends React.Component {
         })
         .then(response => { return response.json()})
         .then(jsonRes => {
-          console.log(jsonRes)  
           let text = jsonRes.responses[0].fullTextAnnotation.text
           this.props.navigation.navigate('Proc', { text: text })
         }).catch(err => {
@@ -62,7 +60,6 @@ export default class Cam extends React.Component {
     
 
     async componentDidMount() {
-        console.log('api?',process.env.GOOGLE_APPLICATION_CREDENTIALS)
         const camera = await Permissions.askAsync(Permissions.CAMERA);
         const audio = await Permissions.askAsync(Permissions.AUDIO_RECORDING);
         const hasCameraPermission = (camera.status === 'granted' && audio.status === 'granted');
