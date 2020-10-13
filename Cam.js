@@ -1,17 +1,19 @@
 import React from 'react';
 import { Camera } from 'expo-camera';
-import { View, Text, processColor } from 'react-native';
+import { View, Text, processColor, StyleSheet } from 'react-native';
 import * as Permissions from 'expo-permissions';
 import styles from './styles';
 import Toolbar from './Toolbar';
 import Gallery from './Gallery';
-import API_KEY from './secrets'
+import Loading from './Loading';
+import API_KEY from './secrets';
 export default class Cam extends React.Component {
     camera = null;
 
     state = {
         captures: [],
         capturing: null,
+        text: null,
         hasCameraPermission: null,
         cameraType: Camera.Constants.Type.back,
         flashMode: Camera.Constants.FlashMode.off,
@@ -33,10 +35,10 @@ export default class Cam extends React.Component {
         this.detectText(photoData.base64)
     };
 
-    handleLongCapture = async () => {
-        const videoData = await this.camera.recordAsync();
-        this.setState({ capturing: false, captures: [videoData, ...this.state.captures] });
-    };
+    handleError = () => {
+        this.props.navigation.navigate('Proc', { text: '', error: true })
+
+    }
     
     detectText(base64){
         fetch(`https://vision.googleapis.com/v1/images:annotate?key=${API_KEY}`, {
@@ -52,9 +54,13 @@ export default class Cam extends React.Component {
         .then(response => { return response.json()})
         .then(jsonRes => {
           let text = jsonRes.responses[0].fullTextAnnotation.text
-          this.props.navigation.navigate('Proc', { text: text })
+          this.setState({text: text})
+          this.props.navigation.navigate('Proc', { text: text, error: false })
         }).catch(err => {
-          console.log('Error', err)
+            console.log('Error', err)
+            this.setState({text: ''})
+            this.handleError()
+
         })
       }
     
@@ -68,14 +74,21 @@ export default class Cam extends React.Component {
     };
 
     render() {
-        const { hasCameraPermission, flashMode, cameraType, capturing, captures } = this.state;
-
+        const { hasCameraPermission, flashMode, cameraType, capturing, captures, text, error } = this.state;
         if (hasCameraPermission === null) {
             return <View />;
         } else if (hasCameraPermission === false) {
             return <Text>Access to camera has been denied.</Text>;
         }
+        else if (captures.length !== 0 && text == null) {
+            return (
+                <View>
+                    <Loading />
+                </View>
+            )
 
+        }
+       
         return (
             <React.Fragment>
                 <View>
@@ -87,7 +100,7 @@ export default class Cam extends React.Component {
                     />
                 </View>
 
-                {captures.length > 0 && <Gallery captures={captures}/>}
+                {/* {captures.length > 0 && <Gallery captures={captures}/>} */}
 
                 <Toolbar 
                     capturing={capturing}
@@ -97,10 +110,10 @@ export default class Cam extends React.Component {
                     setCameraType={this.setCameraType}
                     onCaptureIn={this.handleCaptureIn}
                     onCaptureOut={this.handleCaptureOut}
-                    onLongCapture={this.handleLongCapture}
                     onShortCapture={this.handleShortCapture}
                 />
             </React.Fragment>
         );
     };
 };
+

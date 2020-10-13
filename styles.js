@@ -24,12 +24,16 @@ export default StyleSheet.create({
         height: 100,
         bottom: 0,
     },
+    cam: {
+        height: 75,
+        width: 95
+    },
     captureBtn: {
         width: 60,
         height: 60,
         borderWidth: 2,
         borderRadius: 60,
-        borderColor: "#FFFFFF",
+        borderColor: "#F7C3EC",
     },
     captureBtnActive: {
         width: 80,
@@ -40,8 +44,14 @@ export default StyleSheet.create({
         height: 76,
         borderWidth: 2,
         borderRadius: 76,
-        backgroundColor: "red",
+        backgroundColor: "#F542AD",
         borderColor: "transparent",
+    },
+    container: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: '#F7C3EC'
     },
     galleryContainer: { 
         bottom: 100 
@@ -54,5 +64,16 @@ export default StyleSheet.create({
     galleryImage: { 
         width: 75, 
         height: 75 
+    },
+    header: {
+        color: 'white', 
+        fontSize: 20, 
+        fontFamily: 'MarkerFelt-Wide'
+    },
+    subtext: {
+        color: 'white', 
+        fontSize: 12, 
+        fontFamily: 'MarkerFelt-Wide',
+        paddingBottom: 50,
     }
 });
