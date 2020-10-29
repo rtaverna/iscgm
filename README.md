@@ -34,4 +34,6 @@ This will start the process of "ejecting" from Create React Native App's build s
 
 See below on an example of how to use the app to detect harmful ingredients in bath & beauty products:
 
-![](iscgscreencast.gif)
+![](ezgif.com-gif-maker.gif)
+![](ezgif.com-gif-maker (1).gif)
+
