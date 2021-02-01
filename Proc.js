@@ -46,7 +46,34 @@
           "DMDM hydantoin",
           "imidazolidinyl",
           "diazolidinyl",
-          "benzylhemiformal"]
+          "benzylhemiformal"],
+        all: ["sodium laureth", "myreth", "lauryl sulfate",
+        "sodium c14-16 olefin sulfonate",
+        "ammonium laureth",
+        "sodium cocoyl sarcosinate",
+        "alkyl benzene sulfonate",
+        "ammonium", "sodium xylenesulfonate",
+        "ethyl peg-15 cocamine sulfate",
+        "tea-dodecylbenzenesulfonate",
+        "sodium lauryl sulfoacetate", "dioctyl sodium sulfosuccinate",
+        "sodium xylenesulfonate",
+        "amodimethicone",
+        "dimethicone",
+        "dimethiconol",
+        "cyclomethicone",
+        "cyclopentasiloxane",
+        "behenoxy dimethicone",
+        "bis-aminopropyl dimethicone",
+        "cetearyl methicone",
+        "cetyl dimethicone",
+        "phenyl trimethicone",
+        "stearyl dimethicone",
+        "trimethylsilylamodimethicone",
+        "quaternium-15",
+        "DMDM hydantoin",
+        "imidazolidinyl",
+        "diazolidinyl",
+        "benzylhemiformal"]
       }
     }
 
@@ -74,6 +101,14 @@
           for (let i = 0; i < words.length; i++)  {
             // console.log(words[i])
             if (this.state.formaldehydes.includes(words[i].toLowerCase()))  {
+              console.log('false!!!!!!!')
+              this.setState({approved: false, problem: words[i]});
+            }
+          }
+        } else  {
+          for (let i = 0; i < words.length; i++)  {
+            // console.log(words[i])
+            if (this.state.all.includes(words[i].toLowerCase()))  {
               console.log('false!!!!!!!')
               this.setState({approved: false, problem: words[i]});
             }
