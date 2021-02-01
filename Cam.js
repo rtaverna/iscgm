@@ -7,13 +7,13 @@ import Toolbar from './Toolbar';
 import Gallery from './Gallery';
 import Loading from './Loading';
 import API_KEY from './secrets';
-export default class Cam extends React.Component {
-    camera = null;
 
+export default class Cam extends React.Component {
     state = {
         captures: [],
         capturing: null,
         text: null,
+        chemical: null,
         hasCameraPermission: null,
         cameraType: Camera.Constants.Type.back,
         flashMode: Camera.Constants.FlashMode.off,
@@ -51,13 +51,13 @@ export default class Cam extends React.Component {
                 ]}]
           })
         })
-        .then(response => { return response.json()})
+        .then(response => { return response.json() })
         .then(jsonRes => {
           let text = jsonRes.responses[0].fullTextAnnotation.text
           this.setState({text: text})
-          this.props.navigation.navigate('Proc', { text: text, error: false })
+          this.props.navigation.navigate('Proc', { text: text, error: false, chemical: this.state.chemical })
         }).catch(err => {
-            console.log('Error', err)
+            console.log('Error', err )
             this.setState({text: ''})
             this.handleError()
 
@@ -69,8 +69,9 @@ export default class Cam extends React.Component {
         const camera = await Permissions.askAsync(Permissions.CAMERA);
         const audio = await Permissions.askAsync(Permissions.AUDIO_RECORDING);
         const hasCameraPermission = (camera.status === 'granted' && audio.status === 'granted');
-
-        this.setState({ hasCameraPermission });
+        console.log('Cam',this.props.navigation.state.params.params.chemical)
+        let chem = this.props.navigation.state.params.params.chemical
+        this.setState({ hasCameraPermission, chemical: chem });
     };
 
     render() {
