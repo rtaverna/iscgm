@@ -26,7 +26,8 @@ export default StyleSheet.create({
     },
     cam: {
         height: 75,
-        width: 95
+        width: 95,
+        paddingTop: 10
     },
     captureBtn: {
         width: 60,
@@ -70,10 +71,25 @@ export default StyleSheet.create({
         fontSize: 20, 
         fontFamily: 'MarkerFelt-Wide'
     },
+    picker: {
+        width: 150, 
+        height: 40, 
+        marginBottom: 15
+    },
+    labelStyles: {
+        color: '#F7C3EC',
+        textAlign: 'center',
+        fontSize: 18
+    },
+    activeLabelStyle:   {
+        width: '100%',
+        backgroundColor: '#F7C3EC',
+        color: 'white'
+    },
     subtext: {
         color: 'white', 
         fontSize: 12, 
         fontFamily: 'MarkerFelt-Wide',
-        paddingBottom: 50,
+        paddingBottom: 20,
     }
 });

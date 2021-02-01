@@ -7,9 +7,9 @@ import Toolbar from './Toolbar';
 import Gallery from './Gallery';
 import Loading from './Loading';
 import API_KEY from './secrets';
+
 export default class Cam extends React.Component {
     camera = null;
-
     state = {
         captures: [],
         capturing: null,
@@ -55,9 +55,9 @@ export default class Cam extends React.Component {
         .then(jsonRes => {
           let text = jsonRes.responses[0].fullTextAnnotation.text
           this.setState({text: text})
-          this.props.navigation.navigate('Proc', { text: text, error: false })
+          this.props.navigation.navigate('Proc', { text: text, error: false, chemical: this.props.route.params.chemical })
         }).catch(err => {
-            console.log('Error', err)
+            console.log('Error', err )
             this.setState({text: ''})
             this.handleError()
 
@@ -74,6 +74,7 @@ export default class Cam extends React.Component {
     };
 
     render() {
+
         const { hasCameraPermission, flashMode, cameraType, capturing, captures, text, error } = this.state;
         if (hasCameraPermission === null) {
             return <View />;
