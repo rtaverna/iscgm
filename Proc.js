@@ -11,7 +11,7 @@
       const error = navigation.state.params.error
       const text  = navigation.getParam('text')
       const lines = text.match(/[^\r\n]+/g)
-      const target = navigation.state.params.chemical
+      const target = navigation.getParam('chemical')
 
       this.state = {
         text: text,
@@ -51,9 +51,10 @@
     }
 
     componentDidMount() {
+      console.log('Proc',this.state.target)
       if (this.state.text !== '') {
       let words = this.state.lines.join().split(',')
-      if (this.state.target === 'sulfates') {      
+      if (this.state.target == 'sulfates') {      
         for (let i = 0; i < words.length; i++)  {
           console.log(words[i])
           if (this.state.sulfates.includes(words[i].toLowerCase()))  {
@@ -61,17 +62,17 @@
             this.setState({approved: false, problem: words[i]});
           }
         }
-      }  else if (this.state.target === 'silicones') {      
+      }  else if (this.state.target == 'silicones') {      
           for (let i = 0; i < words.length; i++)  {
-            console.log(words[i])
+            // console.log(words[i])
             if (this.state.silicones.includes(words[i].toLowerCase()))  {
               console.log('false!!!!!!!')
               this.setState({approved: false, problem: words[i]});
             }
           }
-        } else if (this.state.target === 'formaldehydes'){   
+        } else if (this.state.target == 'formaldehydes'){   
           for (let i = 0; i < words.length; i++)  {
-            console.log(words[i])
+            // console.log(words[i])
             if (this.state.formaldehydes.includes(words[i].toLowerCase()))  {
               console.log('false!!!!!!!')
               this.setState({approved: false, problem: words[i]});

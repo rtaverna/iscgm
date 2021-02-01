@@ -9,13 +9,12 @@ import styles from './styles';
 
 
 export default class Home extends React.Component {
-    // const imageURI = Asset.fromModule(require('./assets/cam.png')).uri;
     state = {
         chemical: null
       };
     openCam = () => {
-        console.log('!!!!!')
-        this.props.navigation.navigate('Cam', {chemical: this.state.chemical})
+        console.log('Home',this.state.chemical)
+        this.props.navigation.navigate('Cam', {params: {chemical: this.state.chemical}})
 
     }
     render() {
