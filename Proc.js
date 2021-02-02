@@ -1,7 +1,6 @@
   import React, { Component } from 'react';
   import { StyleSheet, Text, View } from 'react-native';
   import Approved from './Approved';
-  // import chemicals from './chem';
   import styles from './styles';
 
   export default class Proc extends Component {
@@ -61,25 +60,12 @@
       if (this.state.text !== '') {
         let words = this.state.lines.join().split(',')
         for (let i = 0; i < words.length; i++)  {
-          
-        //   console.log('word======',words[i])
           for (let j = 0; j < this.state.chemicals.length; j++) {
-            console.log('chem======',this.state.chemicals[j].name)
-
-            if (this.state.chemicals[j].name === words[i] && this.state.chemicals[j].type + 's' === this.state.target) {
-              console.log('found match',this.state.chemicals[j].name)
+            if (this.state.chemicals[j].name === words[i] && (this.state.chemicals[j].type + 's' === this.state.target || this.state.target === "all")) {
               this.setState({approved: false, problem: {chem: words[i], type: this.state.chemicals[j].type}});
             }
           }
-
-          // this.state.chemicals.forEach((chem) => {
-          //   if (chem.name == words[i] && this.state.target == chem.type + 's')  {
-          //     console.log('false!!!!!!!',words[i])
-          //     this.setState({approved: false, problem: {chem: words[i], type: chem.type}});
-          //   }
-          // }) 
         }
-        console.log(this.state.approved, 'problem is:', this.state.problem,)
       }  
     }  
   
