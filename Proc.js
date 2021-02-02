@@ -1,7 +1,7 @@
   import React, { Component } from 'react';
   import { StyleSheet, Text, View } from 'react-native';
   import Approved from './Approved';
-  import chemicals from './chem';
+  // import chemicals from './chem';
   import styles from './styles';
 
   export default class Proc extends Component {
@@ -18,10 +18,42 @@
         text: text,
         error: error,
         lines: lines,
-        approved: null,
-        problem: [],
+        approved: true,
+        problem: null,
         target: target,
-        chemicals: chemicals
+        chemicals: [
+          {name: "sodium laureth", type: 'sulfate'}, 
+          {name: "myreth", type: 'sulfate'}, 
+          {name: "lauryl sulfate", type: 'sulfate'},
+          {name: "sodium c14-16 olefin sulfonate", type: 'sulfate'},
+          {name: "ammonium laureth",  type: 'sulfate'},
+          {name: "sodium cocoyl sarcosinate", type: 'sulfate'},
+          {name: "alkyl benzene sulfonate", type: 'sulfate'},
+          {name: "ammonium", type: 'sulfate'},
+          {name: "sodium xylenesulfonate", type: 'sulfate'},
+          {name: "ethyl peg-15 cocamine sulfate", type: 'sulfate'},
+          {name: "tea-dodecylbenzenesulfonate", type: 'sulfate'},
+          {name: "sodium lauryl sulfoacetate", type: 'sulfate'},
+          {name: "dioctyl sodium sulfosuccinate", type: 'sulfate'},
+          {name: "sodium xylenesulfonate", type: 'sulfate'},
+          {name: "amodimethicone", type: 'silicone'},
+          {name: "dimethicone", type: 'silicone'},
+          {name: "dimethiconol", type: 'silicone'},
+          {name: "cyclomethicone", type: 'silicone'},
+          {name: "cyclopentasiloxane", type: 'silicone'},
+          {name: "behenoxy dimethicone", type: 'silicone'},
+          {name: "bis-aminopropyl dimethicone", type: 'silicone'},
+          {name: "cetearyl methicone", type: 'silicone'},
+          {name: "cetyl dimethicone", type: 'silicone'},
+          {name: "phenyl trimethicone", type: 'silicone'},
+          {name: "stearyl dimethicone", type: 'silicone'},
+          {name: "trimethylsilylamodimethicone", type: 'silicone'},
+          {name: "quaternium-15", type: 'formaldehyde'},
+          {name: "DMDM hydantoin", type: 'formaldehyde'},
+          {name: "imidazolidinyl", type: 'formaldehyde'},
+          {name: "diazolidinyl", type: 'formaldehyde'},
+          {name: "benzylhemiformal", type: 'formaldehyde'},
+      ]
       }
     }
 
@@ -29,12 +61,23 @@
       if (this.state.text !== '') {
         let words = this.state.lines.join().split(',')
         for (let i = 0; i < words.length; i++)  {
-          this.state.chemicals.forEach((chem) => {
-            if (chem.name == words[i] && this.state.target == chem.type + 's')  {
-              console.log('false!!!!!!!',words[i])
-              this.setState({approved: false, problem: [...this.state.problem, {chem: words[i], type: chem.type}]});
+          
+        //   console.log('word======',words[i])
+          for (let j = 0; j < this.state.chemicals.length; j++) {
+            console.log('chem======',this.state.chemicals[j].name)
+
+            if (this.state.chemicals[j].name === words[i] && this.state.chemicals[j].type + 's' === this.state.target) {
+              console.log('found match',this.state.chemicals[j].name)
+              this.setState({approved: false, problem: {chem: words[i], type: this.state.chemicals[j].type}});
             }
-          }) 
+          }
+
+          // this.state.chemicals.forEach((chem) => {
+          //   if (chem.name == words[i] && this.state.target == chem.type + 's')  {
+          //     console.log('false!!!!!!!',words[i])
+          //     this.setState({approved: false, problem: {chem: words[i], type: chem.type}});
+          //   }
+          // }) 
         }
         console.log(this.state.approved, 'problem is:', this.state.problem,)
       }  
@@ -59,9 +102,7 @@
               ): (
                 <View style={styles.container}>
                   <Text style={styles.header}>Uh Oh</Text> 
-                  <Text style={styles.subtext}>This product contains {this.state.problem.map(chem => {
-                    <Text>{chem.name}, a {chem.type}</Text>})}</Text>
-                  })}, a {this.state.problem.type}.</Text>
+                  <Text style={styles.subtext}>This product contains {this.state.problem.chem}, a {this.state.problem.type}</Text>
                 </View>)}
             </View>
           );

@@ -6,7 +6,8 @@ exports.chemicals = [
     {name: "ammonium laureth",  type: 'sulfate'},
     {name: "sodium cocoyl sarcosinate", type: 'sulfate'},
     {name: "alkyl benzene sulfonate", type: 'sulfate'},
-    {name: "ammonium", "sodium xylenesulfonate", type: 'sulfate'},
+    {name: "ammonium", type: 'sulfate'},
+    {name: "sodium xylenesulfonate", type: 'sulfate'},
     {name: "ethyl peg-15 cocamine sulfate", type: 'sulfate'},
     {name: "tea-dodecylbenzenesulfonate", type: 'sulfate'},
     {name: "sodium lauryl sulfoacetate", type: 'sulfate'},
@@ -28,7 +29,7 @@ exports.chemicals = [
     {name: "DMDM hydantoin", type: 'formaldehyde'},
     {name: "imidazolidinyl", type: 'formaldehyde'},
     {name: "diazolidinyl", type: 'formaldehyde'},
-    {name: "benzylhemiformal" type: 'formaldehyde'},
+    {name: "benzylhemiformal", type: 'formaldehyde'},
 ]
       
 //always search chem. if name found, set problem {chem: name,type: type}
