@@ -1,6 +1,7 @@
   import React, { Component } from 'react';
   import { StyleSheet, Text, View } from 'react-native';
   import Approved from './Approved';
+  import chemicals from './chem';
   import styles from './styles';
 
   export default class Proc extends Component {
@@ -17,106 +18,28 @@
         text: text,
         error: error,
         lines: lines,
-        approved: true,
-        propblem: null,
+        approved: null,
+        problem: [],
         target: target,
-        sulfates: ["sodium laureth", "myreth", "lauryl sulfate",
-        "sodium c14-16 olefin sulfonate",
-        "ammonium laureth",
-        "sodium cocoyl sarcosinate",
-        "alkyl benzene sulfonate",
-        "ammonium", "sodium xylenesulfonate",
-        "ethyl peg-15 cocamine sulfate",
-        "tea-dodecylbenzenesulfonate",
-        "sodium lauryl sulfoacetate", "dioctyl sodium sulfosuccinate",
-        "sodium xylenesulfonate"],
-        silicones: ["amodimethicone",
-        "dimethicone",
-        "dimethiconol",
-        "cyclomethicone",
-        "cyclopentasiloxane",
-        "behenoxy dimethicone",
-        "bis-aminopropyl dimethicone",
-        "cetearyl methicone",
-        "cetyl dimethicone",
-        "phenyl trimethicone",
-        "stearyl dimethicone",
-        "trimethylsilylamodimethicone"],
-        formaldehydes: ["quaternium-15",
-          "DMDM hydantoin",
-          "imidazolidinyl",
-          "diazolidinyl",
-          "benzylhemiformal"],
-        all: ["sodium laureth", "myreth", "lauryl sulfate",
-        "sodium c14-16 olefin sulfonate",
-        "ammonium laureth",
-        "sodium cocoyl sarcosinate",
-        "alkyl benzene sulfonate",
-        "ammonium", "sodium xylenesulfonate",
-        "ethyl peg-15 cocamine sulfate",
-        "tea-dodecylbenzenesulfonate",
-        "sodium lauryl sulfoacetate", "dioctyl sodium sulfosuccinate",
-        "sodium xylenesulfonate",
-        "amodimethicone",
-        "dimethicone",
-        "dimethiconol",
-        "cyclomethicone",
-        "cyclopentasiloxane",
-        "behenoxy dimethicone",
-        "bis-aminopropyl dimethicone",
-        "cetearyl methicone",
-        "cetyl dimethicone",
-        "phenyl trimethicone",
-        "stearyl dimethicone",
-        "trimethylsilylamodimethicone",
-        "quaternium-15",
-        "DMDM hydantoin",
-        "imidazolidinyl",
-        "diazolidinyl",
-        "benzylhemiformal"]
+        chemicals: chemicals
       }
     }
 
     componentDidMount() {
-      console.log('Proc',this.state.target)
       if (this.state.text !== '') {
-      let words = this.state.lines.join().split(',')
-      if (this.state.target == 'sulfates') {      
+        let words = this.state.lines.join().split(',')
         for (let i = 0; i < words.length; i++)  {
-          console.log(words[i])
-          if (this.state.sulfates.includes(words[i].toLowerCase()))  {
-            console.log('false!!!!!!!')
-            this.setState({approved: false, problem: words[i]});
-          }
+          this.state.chemicals.forEach((chem) => {
+            if (chem.name == words[i] && this.state.target == chem.type + 's')  {
+              console.log('false!!!!!!!',words[i])
+              this.setState({approved: false, problem: [...this.state.problem, {chem: words[i], type: chem.type}]});
+            }
+          }) 
         }
-      }  else if (this.state.target == 'silicones') {      
-          for (let i = 0; i < words.length; i++)  {
-            // console.log(words[i])
-            if (this.state.silicones.includes(words[i].toLowerCase()))  {
-              console.log('false!!!!!!!')
-              this.setState({approved: false, problem: words[i]});
-            }
-          }
-        } else if (this.state.target == 'formaldehydes'){   
-          for (let i = 0; i < words.length; i++)  {
-            // console.log(words[i])
-            if (this.state.formaldehydes.includes(words[i].toLowerCase()))  {
-              console.log('false!!!!!!!')
-              this.setState({approved: false, problem: words[i]});
-            }
-          }
-        } else  {
-          for (let i = 0; i < words.length; i++)  {
-            // console.log(words[i])
-            if (this.state.all.includes(words[i].toLowerCase()))  {
-              console.log('false!!!!!!!')
-              this.setState({approved: false, problem: words[i]});
-            }
-          }
-        }
-        console.log('truuuue')
-    }
-  }
+        console.log(this.state.approved, 'problem is:', this.state.problem,)
+      }  
+    }  
+  
 
     render() {
         if (this.state.error) {
@@ -136,7 +59,9 @@
               ): (
                 <View style={styles.container}>
                   <Text style={styles.header}>Uh Oh</Text> 
-                  <Text style={styles.subtext}>This product containes {this.state.problem}.</Text>
+                  <Text style={styles.subtext}>This product contains {this.state.problem.map(chem => {
+                    <Text>{chem.name}, a {chem.type}</Text>})}</Text>
+                  })}, a {this.state.problem.type}.</Text>
                 </View>)}
             </View>
           );
