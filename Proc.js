@@ -18,105 +18,57 @@
         error: error,
         lines: lines,
         approved: true,
-        propblem: null,
+        problem: null,
         target: target,
-        sulfates: ["sodium laureth", "myreth", "lauryl sulfate",
-        "sodium c14-16 olefin sulfonate",
-        "ammonium laureth",
-        "sodium cocoyl sarcosinate",
-        "alkyl benzene sulfonate",
-        "ammonium", "sodium xylenesulfonate",
-        "ethyl peg-15 cocamine sulfate",
-        "tea-dodecylbenzenesulfonate",
-        "sodium lauryl sulfoacetate", "dioctyl sodium sulfosuccinate",
-        "sodium xylenesulfonate"],
-        silicones: ["amodimethicone",
-        "dimethicone",
-        "dimethiconol",
-        "cyclomethicone",
-        "cyclopentasiloxane",
-        "behenoxy dimethicone",
-        "bis-aminopropyl dimethicone",
-        "cetearyl methicone",
-        "cetyl dimethicone",
-        "phenyl trimethicone",
-        "stearyl dimethicone",
-        "trimethylsilylamodimethicone"],
-        formaldehydes: ["quaternium-15",
-          "DMDM hydantoin",
-          "imidazolidinyl",
-          "diazolidinyl",
-          "benzylhemiformal"],
-        all: ["sodium laureth", "myreth", "lauryl sulfate",
-        "sodium c14-16 olefin sulfonate",
-        "ammonium laureth",
-        "sodium cocoyl sarcosinate",
-        "alkyl benzene sulfonate",
-        "ammonium", "sodium xylenesulfonate",
-        "ethyl peg-15 cocamine sulfate",
-        "tea-dodecylbenzenesulfonate",
-        "sodium lauryl sulfoacetate", "dioctyl sodium sulfosuccinate",
-        "sodium xylenesulfonate",
-        "amodimethicone",
-        "dimethicone",
-        "dimethiconol",
-        "cyclomethicone",
-        "cyclopentasiloxane",
-        "behenoxy dimethicone",
-        "bis-aminopropyl dimethicone",
-        "cetearyl methicone",
-        "cetyl dimethicone",
-        "phenyl trimethicone",
-        "stearyl dimethicone",
-        "trimethylsilylamodimethicone",
-        "quaternium-15",
-        "DMDM hydantoin",
-        "imidazolidinyl",
-        "diazolidinyl",
-        "benzylhemiformal"]
+        chemicals: [
+          {name: "sodium laureth", type: 'sulfate'}, 
+          {name: "myreth", type: 'sulfate'}, 
+          {name: "lauryl sulfate", type: 'sulfate'},
+          {name: "sodium c14-16 olefin sulfonate", type: 'sulfate'},
+          {name: "ammonium laureth",  type: 'sulfate'},
+          {name: "sodium cocoyl sarcosinate", type: 'sulfate'},
+          {name: "alkyl benzene sulfonate", type: 'sulfate'},
+          {name: "ammonium", type: 'sulfate'},
+          {name: "sodium xylenesulfonate", type: 'sulfate'},
+          {name: "ethyl peg-15 cocamine sulfate", type: 'sulfate'},
+          {name: "tea-dodecylbenzenesulfonate", type: 'sulfate'},
+          {name: "sodium lauryl sulfoacetate", type: 'sulfate'},
+          {name: "dioctyl sodium sulfosuccinate", type: 'sulfate'},
+          {name: "sodium xylenesulfonate", type: 'sulfate'},
+          {name: "amodimethicone", type: 'silicone'},
+          {name: "dimethicone", type: 'silicone'},
+          {name: "dimethiconol", type: 'silicone'},
+          {name: "cyclomethicone", type: 'silicone'},
+          {name: "cyclopentasiloxane", type: 'silicone'},
+          {name: "behenoxy dimethicone", type: 'silicone'},
+          {name: "bis-aminopropyl dimethicone", type: 'silicone'},
+          {name: "cetearyl methicone", type: 'silicone'},
+          {name: "cetyl dimethicone", type: 'silicone'},
+          {name: "phenyl trimethicone", type: 'silicone'},
+          {name: "stearyl dimethicone", type: 'silicone'},
+          {name: "trimethylsilylamodimethicone", type: 'silicone'},
+          {name: "quaternium-15", type: 'formaldehyde'},
+          {name: "DMDM hydantoin", type: 'formaldehyde'},
+          {name: "imidazolidinyl", type: 'formaldehyde'},
+          {name: "diazolidinyl", type: 'formaldehyde'},
+          {name: "benzylhemiformal", type: 'formaldehyde'},
+      ]
       }
     }
 
     componentDidMount() {
-      console.log('Proc',this.state.target)
       if (this.state.text !== '') {
-      let words = this.state.lines.join().split(',')
-      if (this.state.target == 'sulfates') {      
+        let words = this.state.lines.join().split(',')
         for (let i = 0; i < words.length; i++)  {
-          console.log(words[i])
-          if (this.state.sulfates.includes(words[i].toLowerCase()))  {
-            console.log('false!!!!!!!')
-            this.setState({approved: false, problem: words[i]});
-          }
-        }
-      }  else if (this.state.target == 'silicones') {      
-          for (let i = 0; i < words.length; i++)  {
-            // console.log(words[i])
-            if (this.state.silicones.includes(words[i].toLowerCase()))  {
-              console.log('false!!!!!!!')
-              this.setState({approved: false, problem: words[i]});
-            }
-          }
-        } else if (this.state.target == 'formaldehydes'){   
-          for (let i = 0; i < words.length; i++)  {
-            // console.log(words[i])
-            if (this.state.formaldehydes.includes(words[i].toLowerCase()))  {
-              console.log('false!!!!!!!')
-              this.setState({approved: false, problem: words[i]});
-            }
-          }
-        } else  {
-          for (let i = 0; i < words.length; i++)  {
-            // console.log(words[i])
-            if (this.state.all.includes(words[i].toLowerCase()))  {
-              console.log('false!!!!!!!')
-              this.setState({approved: false, problem: words[i]});
+          for (let j = 0; j < this.state.chemicals.length; j++) {
+            if (this.state.chemicals[j].name === words[i] && (this.state.chemicals[j].type + 's' === this.state.target || this.state.target === "all")) {
+              this.setState({approved: false, problem: {chem: words[i], type: this.state.chemicals[j].type}});
             }
           }
         }
-        console.log('truuuue')
-    }
-  }
+      }  
+    }  
+  
 
     render() {
         if (this.state.error) {
@@ -136,7 +88,7 @@
               ): (
                 <View style={styles.container}>
                   <Text style={styles.header}>Uh Oh</Text> 
-                  <Text style={styles.subtext}>This product containes {this.state.problem}.</Text>
+                  <Text style={styles.subtext}>This product contains {this.state.problem.chem}, a {this.state.problem.type}</Text>
                 </View>)}
             </View>
           );

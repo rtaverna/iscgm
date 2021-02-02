@@ -69,7 +69,6 @@ export default class Cam extends React.Component {
         const camera = await Permissions.askAsync(Permissions.CAMERA);
         const audio = await Permissions.askAsync(Permissions.AUDIO_RECORDING);
         const hasCameraPermission = (camera.status === 'granted' && audio.status === 'granted');
-        console.log('Cam',this.props.navigation.state.params.params.chemical)
         let chem = this.props.navigation.state.params.params.chemical
         this.setState({ hasCameraPermission, chemical: chem });
     };

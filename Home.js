@@ -13,7 +13,6 @@ export default class Home extends React.Component {
         chemical: null
       };
     openCam = () => {
-        console.log('Home',this.state.chemical)
         this.props.navigation.navigate('Cam', {params: {chemical: this.state.chemical}})
 
     }
