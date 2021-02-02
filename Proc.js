@@ -18,7 +18,7 @@
         error: error,
         lines: lines,
         approved: true,
-        problem: null,
+        problem: [],
         target: target,
         chemicals: [
           {name: "sodium laureth", type: 'sulfate'}, 
@@ -57,14 +57,26 @@
     }
 
     componentDidMount() {
+      console.debug('?')
+      let prob
+      let pass = true
       if (this.state.text !== '') {
         let words = this.state.lines.join().split(',')
         for (let i = 0; i < words.length; i++)  {
           for (let j = 0; j < this.state.chemicals.length; j++) {
             if (this.state.chemicals[j].name === words[i] && (this.state.chemicals[j].type + 's' === this.state.target || this.state.target === "all")) {
-              this.setState({approved: false, problem: {chem: words[i], type: this.state.chemicals[j].type}});
+              pass = false;
+              prob = {chem: words[i], type: this.state.chemicals[j].type}
             }
           }
+        }
+        if (!pass)  {
+          this.setState({
+            approved: false, 
+            problem: [...this.state.problem,prob]
+          },() => {
+            console.log('problem',this.state.problem)
+          });
         }
       }  
     }  
@@ -75,7 +87,7 @@
           return (
             <View style={styles.container}>
               <Text style={styles.header}>Oops!</Text>
-              <Text style={styles.subtext}>We couldn't detect any text from your image.{"\n"}                        Please try again!</Text>
+              <Text style={styles.subtext}>We couldn't detect any text from your image.{"\n"}Please try again!</Text>
             </View>
           )
         } else return (
@@ -88,7 +100,7 @@
               ): (
                 <View style={styles.container}>
                   <Text style={styles.header}>Uh Oh</Text> 
-                  <Text style={styles.subtext}>This product contains {this.state.problem.chem}, a {this.state.problem.type}</Text>
+                  {this.state.problem.map(chem => {<Text>{chem.name}</Text>})}
                 </View>)}
             </View>
           );
