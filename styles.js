@@ -76,6 +76,15 @@ export default StyleSheet.create({
         height: 40, 
         marginBottom: 15
     },
+    problem:    {
+        color: 'white', 
+        fontSize: 11, 
+        fontFamily: 'MarkerFelt-Wide',
+        padding: 5
+    },
+    chemName:   {
+        fontWeight: 'bold'
+    },
     labelStyles: {
         color: '#F7C3EC',
         textAlign: 'center',
@@ -90,6 +99,6 @@ export default StyleSheet.create({
         color: 'white', 
         fontSize: 12, 
         fontFamily: 'MarkerFelt-Wide',
-        paddingBottom: 20,
+        paddingBottom: 10,
     }
 });

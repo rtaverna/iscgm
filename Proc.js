@@ -18,7 +18,7 @@
         error: error,
         lines: lines,
         approved: true,
-        problem: null,
+        problem: [],
         target: target,
         chemicals: [
           {name: "sodium laureth", type: 'sulfate'}, 
@@ -57,14 +57,24 @@
     }
 
     componentDidMount() {
+      let prob = []
+      let pass = true
       if (this.state.text !== '') {
         let words = this.state.lines.join().split(',')
-        for (let i = 0; i < words.length; i++)  {
-          for (let j = 0; j < this.state.chemicals.length; j++) {
-            if (this.state.chemicals[j].name === words[i] && (this.state.chemicals[j].type + 's' === this.state.target || this.state.target === "all")) {
-              this.setState({approved: false, problem: {chem: words[i], type: this.state.chemicals[j].type}});
+        for (let i = 0; i < this.state.chemicals.length; i++)  {
+          for (let j = 0; j < words.length; j++) {
+            if (this.state.chemicals[i].name === words[j].trim() && (this.state.chemicals[i].type + 's' === this.state.target || this.state.target === "all")) {
+              pass = false;
+              prob.push({chem: this.state.chemicals[i].name, type: this.state.chemicals[i].type})
+              break;
             }
           }
+        }
+        if (!pass)  {
+          this.setState({
+            approved: false, 
+            problem: [...this.state.problem,...prob]
+          });
         }
       }  
     }  
@@ -75,7 +85,7 @@
           return (
             <View style={styles.container}>
               <Text style={styles.header}>Oops!</Text>
-              <Text style={styles.subtext}>We couldn't detect any text from your image.{"\n"}                        Please try again!</Text>
+              <Text style={styles.subtext}>We couldn't detect any text from your image.{"\n"}Please try again!</Text>
             </View>
           )
         } else return (
@@ -83,12 +93,13 @@
               {this.state.approved ? (
                 <View style={styles.container}>
                   <Text style={styles.header}>Hooray!</Text> 
-                  <Text style={styles.subtext}>This product is safe and healthy</Text>
+                  <Text style={styles.subtext}>This product contains no {this.state.target === "all" ? <Text>harmful ingredients</Text> : <Text>{this.state.target}</Text>}</Text>
                 </View>
               ): (
                 <View style={styles.container}>
                   <Text style={styles.header}>Uh Oh</Text> 
-                  <Text style={styles.subtext}>This product contains {this.state.problem.chem}, a {this.state.problem.type}</Text>
+                  <Text style={styles.subtext}>This product contains:</Text>
+                  {this.state.problem.map((chem,i) => <Text key={i} style={styles.problem}><Text style={styles.chemName}>{chem.chem}</Text>, a {chem.type}</Text>)}
                 </View>)}
             </View>
           );
