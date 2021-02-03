@@ -66,7 +66,6 @@
             if (this.state.chemicals[i].name === words[j].trim() && (this.state.chemicals[i].type + 's' === this.state.target || this.state.target === "all")) {
               pass = false;
               prob.push({chem: this.state.chemicals[i].name, type: this.state.chemicals[i].type})
-              console.log('prob',prob)
               break;
             }
           }
