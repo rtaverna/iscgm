@@ -57,25 +57,24 @@
     }
 
     componentDidMount() {
-      console.debug('?')
-      let prob
+      let prob = []
       let pass = true
       if (this.state.text !== '') {
         let words = this.state.lines.join().split(',')
-        for (let i = 0; i < words.length; i++)  {
-          for (let j = 0; j < this.state.chemicals.length; j++) {
-            if (this.state.chemicals[j].name === words[i] && (this.state.chemicals[j].type + 's' === this.state.target || this.state.target === "all")) {
+        for (let i = 0; i < this.state.chemicals.length; i++)  {
+          for (let j = 0; j < words.length; j++) {
+            if (this.state.chemicals[i].name === words[j].trim() && (this.state.chemicals[i].type + 's' === this.state.target || this.state.target === "all")) {
               pass = false;
-              prob = {chem: words[i], type: this.state.chemicals[j].type}
+              prob.push({chem: this.state.chemicals[i].name, type: this.state.chemicals[i].type})
+              console.log('prob',prob)
+              break;
             }
           }
         }
         if (!pass)  {
           this.setState({
             approved: false, 
-            problem: [...this.state.problem,prob]
-          },() => {
-            console.log('problem',this.state.problem)
+            problem: [...this.state.problem,...prob]
           });
         }
       }  
@@ -95,12 +94,13 @@
               {this.state.approved ? (
                 <View style={styles.container}>
                   <Text style={styles.header}>Hooray!</Text> 
-                  <Text style={styles.subtext}>This product is safe and healthy</Text>
+                  <Text style={styles.subtext}>This product contains no {this.state.target === "all" ? <Text>harmful ingredients</Text> : <Text>{this.state.target}</Text>}</Text>
                 </View>
               ): (
                 <View style={styles.container}>
                   <Text style={styles.header}>Uh Oh</Text> 
-                  {this.state.problem.map(chem => {<Text>{chem.name}</Text>})}
+                  <Text style={styles.subtext}>This product contains:</Text>
+                  {this.state.problem.map((chem,i) => <Text key={i} style={styles.problem}><Text style={styles.chemName}>{chem.chem}</Text>, a {chem.type}</Text>)}
                 </View>)}
             </View>
           );
