@@ -22,7 +22,7 @@ export default class Home extends React.Component {
                 <Text style={styles.header}>Welcome</Text>
                 {this.state.chemical ? 
                     <Text style={styles.subtext}>Tap Camera Icon to Analyze Ingredients</Text> :
-                    <Text style={styles.subtext}>Select Chemicals to Filter For</Text>
+                    <Text style={styles.subtext}>Select Chemical(s) to Filter For</Text>
                 }
                 <DropDownPicker 
                     items={[{label: 'sulfates', value: 'sulfates'},{label: 'silicones',value:'silicones'},{label: 'formaldehydes',value: 'formaldehydes'},{label: 'all',value: 'all'}]}

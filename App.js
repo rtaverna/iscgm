@@ -30,10 +30,14 @@ import Loading from './Loading';
         headerTitleStyle: {
           opacity: 0        
         },
+        headerBackTitleStyle: {
+          color: 'white'
+        },
+        headerTintColor:  'white',
         headerTransparent: true,
         headerStyle: {
-          backgroundColor: '#F7C3EC'  
-      }}
+          backgroundColor: '#F7C3EC'
+        }}
     } 
   });
 

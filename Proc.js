@@ -85,7 +85,7 @@
           return (
             <View style={styles.container}>
               <Text style={styles.header}>Oops!</Text>
-              <Text style={styles.subtext}>We couldn't detect any text from your image.{"\n"}Please try again!</Text>
+              <Text style={styles.subtext}>We couldn't detect any text from your image.{"\n"}                      Please try again!</Text>
             </View>
           )
         } else return (

@@ -12,6 +12,7 @@ export default class Cam extends React.Component {
     state = {
         captures: [],
         capturing: null,
+        loading: false,
         text: null,
         chemical: null,
         hasCameraPermission: null,
@@ -31,7 +32,7 @@ export default class Cam extends React.Component {
     handleShortCapture = async () => {
         const options = { quality: 0.5, base64: true };
         const photoData = await this.camera.takePictureAsync(options);
-        this.setState({ capturing: false, captures: [photoData, ...this.state.captures] })
+        this.setState({ capturing: false, loading: true, captures: [photoData, ...this.state.captures] })
         this.detectText(photoData.base64)
     };
 
@@ -54,11 +55,11 @@ export default class Cam extends React.Component {
         .then(response => { return response.json() })
         .then(jsonRes => {
           let text = jsonRes.responses[0].fullTextAnnotation.text
-          this.setState({text: text})
+          this.setState({text: text,loading: false})
           this.props.navigation.navigate('Proc', { text: text, error: false, chemical: this.state.chemical })
         }).catch(err => {
             console.log('Error', err )
-            this.setState({text: ''})
+            this.setState({text: '',loading: false})
             this.handleError()
 
         })
@@ -80,7 +81,7 @@ export default class Cam extends React.Component {
         } else if (hasCameraPermission === false) {
             return <Text>Access to camera has been denied.</Text>;
         }
-        else if (captures.length !== 0 && text == null) {
+        else if (this.state.loading) {
             return (
                 <View>
                     <Loading />
